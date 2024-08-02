@@ -20,7 +20,7 @@ public class Scrabble {
     private static long startTime;
 
     public static void main(String[] args) {
-        List<String> result = new Scrabble().findNineLetterWords();
+        Set<String> result = new Scrabble().findNineLetterWords();
         long endTime = Instant.now().toEpochMilli();
         System.out.println(result.stream().sorted().collect(Collectors.joining("\n", "", "\n---------")));
         System.out.println(result.size() + " words found in " + (endTime - startTime) + " ms");
@@ -43,15 +43,15 @@ public class Scrabble {
         return word.length() < 10 && containsAny(word, 'A', 'I');
     }
 
-    public List<String> findNineLetterWords() {
+    public Set<String> findNineLetterWords() {
         WordCollector words = this.readWords();
         TemplateGenerator generator = new TemplateGenerator();
         Map<String, Set<String>> broadeningTemplates = generator.generateTemplates(words.getWordsOfLength(1), BROADENING);
-        List<String> iLetterWords = null;
+        Set<String> iLetterWords = null;
         for (int i = 2; i < 10; i++) {
             Map<String,Set<String>> sameSizeTemplates = generator.generateIntersectingTemplates(words.getWordsOfLength(i), SAME_SIZE, broadeningTemplates.keySet());
             words.clearWordsOfLength(i);
-            iLetterWords = sameSizeTemplates.values().stream().flatMap(Set::stream).toList();
+            iLetterWords = sameSizeTemplates.values().stream().flatMap(Set::stream).collect(Collectors.toSet());
             broadeningTemplates.clear();
             if (i < 9) {
                 broadeningTemplates = generator.generateTemplates(iLetterWords, BROADENING);

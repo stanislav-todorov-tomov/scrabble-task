@@ -29,8 +29,8 @@ public final class WordCollector implements Collector<String, WordCollector, Wor
         words.forEach(this::add);
     }
 
-    public List<String> getWordsOfLength(int length) {
-        return this.map.get(length);
+    public Set<String> getWordsOfLength(int length) {
+        return new HashSet<>(this.map.get(length));
     }
 
     public void clearWordsOfLength(int length) {

@@ -50,7 +50,7 @@ public final class TemplateGenerator {
         return templates;
     }
 
-    public Map<String,Set<String>> generateTemplates(List<String> words, TemplateType type) {
+    public Map<String,Set<String>> generateTemplates(Set<String> words, TemplateType type) {
         Map<String,Set<String>> result = new HashMap<>();
         for (String word : words)
             for (String template : type == SAME_SIZE ? this.sameSizeTemplates(word) : this.broadeningTemplates(word))
@@ -58,7 +58,7 @@ public final class TemplateGenerator {
         return result;
     }
 
-    public Map<String,Set<String>> generateIntersectingTemplates(List<String> words, TemplateType type, Collection<String> collection) {
+    public Map<String,Set<String>> generateIntersectingTemplates(Set<String> words, TemplateType type, Collection<String> collection) {
         Map<String,Set<String>> result = new HashMap<>();
         for (String word : words)
             for (String template : type == SAME_SIZE ? this.sameSizeTemplates(word) : this.broadeningTemplates(word))
